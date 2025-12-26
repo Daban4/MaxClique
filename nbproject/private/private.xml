@@ -3,11 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/jorge/Documents/UNIVERSIDAD/4º/1º%20Ev/Complejidad%20y%20computabilidad/P10/MaxCLIQUE/MaxCLIQUE/src/maxclq/MaxCLQ.java</file>
-            <file>file:/C:/Users/jorge/Documents/UNIVERSIDAD/4º/1º%20Ev/Complejidad%20y%20computabilidad/P10/MaxCLIQUE/MaxCLIQUE/src/ugraph/UndirectedGraph.java</file>
-            <file>file:/C:/Users/jorge/Documents/UNIVERSIDAD/4º/1º%20Ev/Complejidad%20y%20computabilidad/P10/MaxCLIQUE/MaxCLIQUE/src/maxclq/MaxCliqueSolver.java</file>
-            <file>file:/C:/Users/jorge/Documents/UNIVERSIDAD/4º/1º%20Ev/Complejidad%20y%20computabilidad/P10/MaxCLIQUE/MaxCLIQUE/src/ugraph/UGraph.java</file>
-            <file>file:/C:/Users/jorge/Documents/UNIVERSIDAD/4º/1º%20Ev/Complejidad%20y%20computabilidad/P10/MaxCLIQUE/MaxCLIQUE/src/maxclq/UGraphUtilities.java</file>
+            <file>file:/C:/Users/jorge/Documents/UNIVERSIDAD/4º/1º%20Ev/Complejidad%20y%20computabilidad/TrabajoFinal/MaxClique/src/maxclq/MaxCLQ.java</file>
+            <file>file:/C:/Users/jorge/Documents/UNIVERSIDAD/4º/1º%20Ev/Complejidad%20y%20computabilidad/TrabajoFinal/MaxClique/src/maxclq/SCE.java</file>
+            <file>file:/C:/Users/jorge/Documents/UNIVERSIDAD/4º/1º%20Ev/Complejidad%20y%20computabilidad/TrabajoFinal/MaxClique/src/maxclq/UGraphUtilities.java</file>
+            <file>file:/C:/Users/jorge/Documents/UNIVERSIDAD/4º/1º%20Ev/Complejidad%20y%20computabilidad/TrabajoFinal/MaxClique/src/maxclq/MaxCliqueSolver.java</file>
+            <file>file:/C:/Users/jorge/Documents/UNIVERSIDAD/4º/1º%20Ev/Complejidad%20y%20computabilidad/TrabajoFinal/MaxClique/src/maxclq/BoolVarMatrix.java</file>
+            <file>file:/C:/Users/jorge/Documents/UNIVERSIDAD/4º/1º%20Ev/Complejidad%20y%20computabilidad/TrabajoFinal/MaxClique/src/maxclq/BruteForceMaxCliqueSolver.java</file>
         </group>
     </open-files>
 </project-private>
