@@ -71,29 +71,34 @@ final class SCE {
             }
             else if (k == 1) {
 
-                atMost1(literals, phi);
+                for (int i = 0; i < n; i++) {
+                    for (int j = i + 1; j < n; j++) {
+                        model.addBoolOr(new Literal[]{literals.get(i).not(),literals.get(j).not()});
+                    }
+                }
 
             }
             else if ((k > 1) && (k < (n - 1))) {
                 if (((n - 1) * k) < (n * (n - k))) {
-                    _atMost(k, literals, phi);
+                    _atMost(k, literals, model);
                 }
                 else {
-                    List<BooleanLiteral> negated = new ArrayList<>();
-                    for (BooleanLiteral l : literals) {
+                    List<Literal> negated = new ArrayList<>();
+                    for (Literal l : literals) {
                         negated.add(l.not());
                     }
-                    _atLeast(n - k, negated, phi);
+                    _atLeast(n - k, negated, model);
                 }
             }
             else if (k == (n - 1)) {
 
                 // A lo sumo n - 1 ovejas blancas == al menos 1 oveja negra
-                List<BooleanLiteral> negated = new ArrayList<>();
-                for (BooleanLiteral l : literals) {
+                List<Literal> negated = new ArrayList<>();
+                for (Literal l : literals) {
                     negated.add(l.not());
                 }
-                phi.addClause(new DisjunctiveBooleanClause(negated));
+                //phi.addClause(new DisjunctiveBooleanClause(negated));
+                model.addBoolOr(negated);
             }
             else if (k >= n) {
 
@@ -123,7 +128,6 @@ final class SCE {
         //2 
         for (int j = 2; j <= k; j++) {
             Literal litMat = R.getNegativeLiteral(1, j);
-
             model.addBoolOr(new Literal[]{litMat});
 
         }
@@ -133,7 +137,7 @@ final class SCE {
             for (int j = 1; j <= k; j++) {
                 Literal litMat1 = R.getNegativeLiteral(i - 1, j);
                 Literal litMat2 = R.getPositiveLiteral(i, j);
-                model.addBoolOr(new Literal[]{ litMat1, litMat2 });
+                model.addBoolOr(new Literal[]{litMat1, litMat2});
             }
         }
         //4 
@@ -143,20 +147,19 @@ final class SCE {
             for (int j = 2; j <= k; j++) {
                 Literal litMat1 = R.getNegativeLiteral(i - 1, j - 1);
                 Literal litMat2 = R.getPositiveLiteral(i, j);
-                List<Literal> listaAux = new ArrayList<>();
-                model.addBoolOr(new Literal[]{ l.not(), litMat1, litMat2 });
+                model.addBoolOr(new Literal[]{l.not(), litMat1, litMat2});
             }
         }
         //5
         for (int i = 2; i <= n; i++) {
             Literal l = literals.get(i - 1);//-1 por lo de antes, el get no resta el getNeg si 
             Literal litMat1 = R.getNegativeLiteral(i - 1, k);
-            model.addBoolOr(new Literal[]{ l.not(), litMat1 });
+            model.addBoolOr(new Literal[]{l.not(), litMat1});
         }
 
     }
 
-static void _atLeast(final int k,
+    static void _atLeast(final int k,
             final List<Literal> literals,
             final CpModel model) {
 
@@ -164,35 +167,41 @@ static void _atLeast(final int k,
         final BoolVarMatrix R = new BoolVarMatrix(n, k, model);
         for (int j = 1; j <= k; j++) {
             Literal litMat = R.getPositiveLiteral(n, j);
+            //phi.addClause(new DisjunctiveBooleanClause(litMat));
+            model.addBoolOr(new Literal[]{litMat});
         }
-        model.addBoolAnd(litMat);
 
         for (int i = 2; i <= n; i++) {
             Literal l = literals.get(i - 1);
             for (int j = 2; j <= k; j++) {
-                BooleanLiteral litMat1 = R.getNegativeLiteral(i, j);
-                BooleanLiteral litMat2 = R.getPositiveLiteral(i - 1, j);
-                BooleanLiteral litMat3 = R.getPositiveLiteral(i - 1, j - 1);
-
-                phi.addClause(new DisjunctiveBooleanClause(litMat1, litMat2, l));
-                phi.addClause(new DisjunctiveBooleanClause(litMat1, litMat2, litMat3));
+                Literal litMat1 = R.getNegativeLiteral(i, j);
+                Literal litMat2 = R.getPositiveLiteral(i - 1, j);
+                Literal litMat3 = R.getPositiveLiteral(i - 1, j - 1);
+                model.addBoolOr(new Literal[]{litMat1, litMat2, l});
+                model.addBoolOr(new Literal[]{litMat1, litMat2, litMat3});
+                //phi.addClause(new DisjunctiveBooleanClause(litMat1, litMat2, l));
+                //phi.addClause(new DisjunctiveBooleanClause(litMat1, litMat2, litMat3));
 
             }
         }
         for (int i = 2; i <= n; i++) {
-            BooleanLiteral l = literals.get(i - 1);
-            BooleanLiteral litMat1 = R.getNegativeLiteral(i, 1);
-            BooleanLiteral litMat2 = R.getPositiveLiteral(i - 1, 1);
-            phi.addClause(new DisjunctiveBooleanClause(litMat1, litMat2, l));
-        }
-        phi.addClause(new DisjunctiveBooleanClause(R.getNegativeLiteral(1, 1), literals.get(0)));
-        for (int j = 2; j <= k; j++) {
-            phi.addClause(new DisjunctiveBooleanClause(R.getNegativeLiteral(1, j)));
-        }
-        for (int i = 1; i < k; i++) {
-            phi.addClause(new DisjunctiveBooleanClause(R.getNegativeLiteral(i, k)));
-        }
+            Literal l = literals.get(i - 1);
+            Literal litMat1 = R.getNegativeLiteral(i, 1);
+            Literal litMat2 = R.getPositiveLiteral(i - 1, 1);
+            //phi.addClause(new DisjunctiveBooleanClause(litMat1, litMat2, l));
+            model.addBoolOr(new Literal[]{litMat1, litMat2, l});
 
+        }
+        //phi.addClause(new DisjunctiveBooleanClause(R.getNegativeLiteral(1, 1), literals.get(0)));
+        model.addBoolOr(new Literal[]{R.getNegativeLiteral(1, 1), literals.get(0)});
+        for (int j = 2; j <= k; j++) {
+            //phi.addClause(new DisjunctiveBooleanClause(R.getNegativeLiteral(1, j)));
+            model.addBoolOr(new Literal[]{R.getNegativeLiteral(1, j)});
+        }
+        //for (int i = 1; i < k; i++) {
+            //phi.addClause(new DisjunctiveBooleanClause(R.getNegativeLiteral(i, k)));
+           // model.addBoolOr(new Literal[]{R.getNegativeLiteral(i, k)});
+        //}
     }
 
 }
