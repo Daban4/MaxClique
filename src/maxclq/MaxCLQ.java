@@ -148,7 +148,36 @@ public final class MaxCLQ implements MaxCliqueSolver {
         // Modelo para la instancia del problema MaxSAT
         final CpModel model = new CpModel();
 
-        // ClaÃºsulas booleanas del modelo
+        // Crear una variable booleana para cada nodo del grafo
+        for (int i = 1; i <= G.nodes(); ++i) {
+            final Node v = G.node(i);
+            final BoolVar var = model.newBoolVar("x_" + i);
+            nodeToBoolVar.put(v, var);
+        }
+
+        // Añadir restricciones de clique:
+        // Si dos nodos no son vecinos, no pueden estar ambos seleccionados
+        for (int i = 1; i <= G.nodes(); ++i) {
+            final Node u = G.node(i);
+            for (int j = i + 1; j <= G.nodes(); ++j) {
+                final Node v = G.node(j);
+                // Si u y v no son vecinos, al menos uno debe estar desseleccionado
+                if (!G.neighbours(u, v)) {
+                    model.addBoolOr(new Literal[]{
+                        nodeToBoolVar.get(u).not(),
+                        nodeToBoolVar.get(v).not()
+                    });
+                }
+            }
+        }
+
+        // Añadir restricción de tamaño mínimo k
+        final BoolVar[] allVars = new BoolVar[G.nodes()];
+        for (int i = 1; i <= G.nodes(); ++i) {
+            allVars[i - 1] = nodeToBoolVar.get(G.node(i));
+        }
+        model.addGreaterOrEqual(LinearExpr.sum(allVars), k);
+
         return model;
 
     }
