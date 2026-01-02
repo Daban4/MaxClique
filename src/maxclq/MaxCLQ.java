@@ -35,7 +35,7 @@ public final class MaxCLQ implements MaxCliqueSolver {
 
         final Set<Node> C = _solve(G, new HashSet<>(), 0); //el hashet es el clike en construccion 
 
-        if (!verify(G, C)) {
+        if (!verify(G.support(), C)) {
             throw new IllegalArgumentException("Clique mal formado");
         }
 
@@ -55,7 +55,7 @@ public final class MaxCLQ implements MaxCliqueSolver {
         // Si el grafo tiene un Ãºnico nodo o no tiene aristas, se devuelve
         // el nodo de grado mÃ¡ximo.
         if ((G.nodes() == 1) || (G.degree() == 0)) {
-            C.add(G.getMaxsDegreeNode());
+            C.add(G.getMaxDegreeNode());
             return C;
         }
 
@@ -86,7 +86,7 @@ public final class MaxCLQ implements MaxCliqueSolver {
             LB = C1.size();
         }
 
-        final UGraph Gm = G.subgraphInducedMinus(v, k);
+        final UGraph Gm = G.subgraphInducedMinus(v);
         final Set<Node> C2 = _solve(Gm, C, LB);
 
         return (C1.size() > C2.size()) ? C1 : C2;
