@@ -14,6 +14,7 @@ import java.nio.file.FileSystems;
 import java.util.Set;
 import java.util.zip.ZipInputStream;
 //
+import maxclq.MaxCLQ; 
 import maxclq.BruteForceMaxCliqueSolver;
 import maxclq.MaxCliqueSolver;
 import ugraph.Node;
@@ -44,7 +45,7 @@ public class MaxCLIQUEMain {
       System.out.printf(" Aristas:  %d\n", G.edges());
       System.out.printf(" Densidad: %4.3f\n", G.density());
 
-      final MaxCliqueSolver solver = new BruteForceMaxCliqueSolver();
+      final MaxCliqueSolver solver = new MaxCLQ();
       final long t0 = System.nanoTime();
       final Set<Node> clique = solver.solve(G);
       final long t1 = System.nanoTime();
